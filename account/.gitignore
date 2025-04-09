@@ -36,5 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 
-##macOS##
+## macOS with  git rm --cached ./{filename} to untrack ##
 .DS_Store
