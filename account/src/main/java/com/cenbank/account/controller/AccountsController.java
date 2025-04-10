@@ -1,9 +1,7 @@
 package com.cenbank.account.controller;
 
 import com.cenbank.account.constants.AccountsConstants;
-import com.cenbank.account.dto.CustomerDto;
-import com.cenbank.account.dto.ErrorResponseDto;
-import com.cenbank.account.dto.ResponseDto;
+import com.cenbank.account.dto.*;
 import com.cenbank.account.service.IAccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -149,5 +147,28 @@ public class AccountsController {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
                     .body(new ResponseDto(AccountsConstants.STATUS_417, AccountsConstants.MESSAGE_417_DELETE));
         }
+    }
+
+    @Operation(
+            summary = "Get: Full Customer Report",
+            description = "Personal Information + Account Information + KYC report information of a customer"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HttpStatus.OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HttpStatus.INTERNAL_SERVER_ERROR",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    })
+    @GetMapping("/fullreport")
+    public ResponseEntity<GetFullCustomerReportDto> getFullCustomerReport(@Valid @RequestBody GetFullCustomerReportInputDto getFullCustomerReportInputDto) {
+        GetFullCustomerReportDto getFullCustomerReportDto = iAccountService.getFullCustomerReport(getFullCustomerReportInputDto);
+        return ResponseEntity.status(HttpStatus.OK).body(getFullCustomerReportDto);
     }
 }

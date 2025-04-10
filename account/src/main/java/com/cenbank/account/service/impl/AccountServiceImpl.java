@@ -1,8 +1,7 @@
 package com.cenbank.account.service.impl;
 
 import com.cenbank.account.constants.AccountsConstants;
-import com.cenbank.account.dto.AccountsDto;
-import com.cenbank.account.dto.CustomerDto;
+import com.cenbank.account.dto.*;
 import com.cenbank.account.exception.CustomerAlreadyExistsException;
 import com.cenbank.account.exception.ResourceNotFoundException;
 import com.cenbank.account.mapper.AccountsMapper;
@@ -12,6 +11,7 @@ import com.cenbank.account.model.Customer;
 import com.cenbank.account.repository.AccountRepository;
 import com.cenbank.account.repository.CustomerRepository;
 import com.cenbank.account.service.IAccountService;
+import com.cenbank.account.service.client.ComplianceFeignClient;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl implements IAccountService {
     private AccountRepository accountRepository;
     private CustomerRepository customerRepository;
+    private ComplianceFeignClient complianceFeignClient;
 
     @Override
     public void createAccount(CustomerDto customerDto) {
@@ -38,6 +39,9 @@ public class AccountServiceImpl implements IAccountService {
 
         Customer customer = CustomerMapper.mapToCustomer(customerDto, new Customer());
         Customer savedCustomer = customerRepository.save(customer);
+
+        //link account microservice to compliance microservice
+        createCustomerNewSummary(savedCustomer);
 
         //link customer to account: every account owned by a customer
         accountRepository.save(createNewAccount(savedCustomer));
@@ -106,6 +110,31 @@ public class AccountServiceImpl implements IAccountService {
         return isDeleted;
     }
 
+    @Override
+    public GetFullCustomerReportDto getFullCustomerReport(GetFullCustomerReportInputDto formDto) {
+        boolean isValid = verifyFullCustomerInput(formDto);
+        if (!isValid) {
+            throw new ResourceNotFoundException("Full Customer Report", "Form", "invalid form data!");
+        }
+        Optional<Customer> customer = customerRepository.findByPhoneNumber(formDto.getPhoneNumber());
+
+        List<Accounts> accountsList = accountRepository.findByCustomerId(customer.get().getCustomerId());
+        List<AccountsDto> accountsDtoList = accountsList.stream().map(
+
+                account -> AccountsDto.builder().accountNumber(account.getAccountNumber())
+                            .accountType(account.getAccountType())
+                            .branchAddress(account.getBranchAddress())
+                            .build()
+                                        ).collect(Collectors.toList());
+
+
+        GetSummaryDto getSummaryDto = complianceFeignClient.getSummaryDto(customer.get().getCustomerId().toString()).getBody();
+        List<GetReportDto> reportDtoList = complianceFeignClient.fetchAllReports(customer.get().getCustomerId().toString()).getBody();
+
+        return CustomerMapper.mapToGetFullCustomerReportDto(customer.get(), accountsDtoList,
+                                                                                getSummaryDto, reportDtoList);
+    }
+
 
     private Accounts createNewAccount(Customer customer) {
         Accounts newAccounts = new Accounts();
@@ -119,5 +148,22 @@ public class AccountServiceImpl implements IAccountService {
         newAccount.setBranchAddress(AccountsConstants.ADDRESS);
 
         return newAccount;
+    }
+
+    private void createCustomerNewSummary(Customer customer) {
+        SummaryDto newSummaryDto = new SummaryDto();
+        newSummaryDto.setCustomerId(customer.getCustomerId().toString());
+        newSummaryDto.setKycStatus("CLEAN");
+        complianceFeignClient.createSummary(newSummaryDto);
+    }
+
+    private boolean verifyFullCustomerInput(GetFullCustomerReportInputDto formDto) {
+        boolean valid = customerRepository.existsByNameAndEmailAndPhoneNumber(formDto.getName(), formDto.getEmail(), formDto.getPhoneNumber());
+        if (!valid) {
+            return false;
+        }
+        Optional<Customer> customer = customerRepository.findByPhoneNumber(formDto.getPhoneNumber());
+        valid = accountRepository.existsByCustomerIdAndAccountNumber(customer.get().getCustomerId(), Long.parseLong(formDto.getAccountNumber()));
+        return valid;
     }
 }
