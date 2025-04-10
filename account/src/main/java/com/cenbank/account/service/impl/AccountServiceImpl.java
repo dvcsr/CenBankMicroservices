@@ -1,9 +1,7 @@
 package com.cenbank.account.service.impl;
 
 import com.cenbank.account.constants.AccountsConstants;
-import com.cenbank.account.dto.AccountsDto;
-import com.cenbank.account.dto.CustomerDto;
-import com.cenbank.account.dto.SummaryDto;
+import com.cenbank.account.dto.*;
 import com.cenbank.account.exception.CustomerAlreadyExistsException;
 import com.cenbank.account.exception.ResourceNotFoundException;
 import com.cenbank.account.mapper.AccountsMapper;
@@ -112,6 +110,31 @@ public class AccountServiceImpl implements IAccountService {
         return isDeleted;
     }
 
+    @Override
+    public GetFullCustomerReportDto getFullCustomerReport(GetFullCustomerReportInputDto formDto) {
+        boolean isValid = verifyFullCustomerInput(formDto);
+        if (!isValid) {
+            throw new ResourceNotFoundException("Full Customer Report", "Form", "invalid form data!");
+        }
+        Optional<Customer> customer = customerRepository.findByPhoneNumber(formDto.getPhoneNumber());
+
+        List<Accounts> accountsList = accountRepository.findByCustomerId(customer.get().getCustomerId());
+        List<AccountsDto> accountsDtoList = accountsList.stream().map(
+
+                account -> AccountsDto.builder().accountNumber(account.getAccountNumber())
+                            .accountType(account.getAccountType())
+                            .branchAddress(account.getBranchAddress())
+                            .build()
+                                        ).collect(Collectors.toList());
+
+
+        GetSummaryDto getSummaryDto = complianceFeignClient.getSummaryDto(customer.get().getCustomerId().toString()).getBody();
+        List<GetReportDto> reportDtoList = complianceFeignClient.fetchAllReports(customer.get().getCustomerId().toString()).getBody();
+
+        return CustomerMapper.mapToGetFullCustomerReportDto(customer.get(), accountsDtoList,
+                                                                                getSummaryDto, reportDtoList);
+    }
+
 
     private Accounts createNewAccount(Customer customer) {
         Accounts newAccounts = new Accounts();
@@ -132,5 +155,15 @@ public class AccountServiceImpl implements IAccountService {
         newSummaryDto.setCustomerId(customer.getCustomerId().toString());
         newSummaryDto.setKycStatus("CLEAN");
         complianceFeignClient.createSummary(newSummaryDto);
+    }
+
+    private boolean verifyFullCustomerInput(GetFullCustomerReportInputDto formDto) {
+        boolean valid = customerRepository.existsByNameAndEmailAndAndPhoneNumber(formDto.getName(), formDto.getEmail(), formDto.getPhoneNumber());
+        if (!valid) {
+            return false;
+        }
+        Optional<Customer> customer = customerRepository.findByPhoneNumber(formDto.getPhoneNumber());
+        valid = accountRepository.existsByCustomerIdAAndAccountNumber(customer.get().getCustomerId(), formDto.getAccountNumber());
+        return valid;
     }
 }
