@@ -12,8 +12,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableConfigurationProperties(value = HelpContactDto.class)
-@EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
 @SpringBootApplication
+@EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
 @OpenAPIDefinition(
         info = @Info(
                 title = "REST API: Compliance Microservices",

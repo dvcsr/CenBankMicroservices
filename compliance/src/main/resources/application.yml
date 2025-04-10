@@ -1,16 +1,3 @@
-server:
-  port: 8080
-
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/bankdbpostgres
-    driver-class-name: org.postgresql.Driver
-    username: bankdbuser
-    password: bankdbpw
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-
 eureka:
   instance:
     preferIpAddress: true
