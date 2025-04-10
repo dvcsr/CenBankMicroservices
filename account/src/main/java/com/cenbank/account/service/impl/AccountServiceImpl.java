@@ -158,12 +158,12 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     private boolean verifyFullCustomerInput(GetFullCustomerReportInputDto formDto) {
-        boolean valid = customerRepository.existsByNameAndEmailAndAndPhoneNumber(formDto.getName(), formDto.getEmail(), formDto.getPhoneNumber());
+        boolean valid = customerRepository.existsByNameAndEmailAndPhoneNumber(formDto.getName(), formDto.getEmail(), formDto.getPhoneNumber());
         if (!valid) {
             return false;
         }
         Optional<Customer> customer = customerRepository.findByPhoneNumber(formDto.getPhoneNumber());
-        valid = accountRepository.existsByCustomerIdAAndAccountNumber(customer.get().getCustomerId(), formDto.getAccountNumber());
+        valid = accountRepository.existsByCustomerIdAndAccountNumber(customer.get().getCustomerId(), formDto.getAccountNumber());
         return valid;
     }
 }
