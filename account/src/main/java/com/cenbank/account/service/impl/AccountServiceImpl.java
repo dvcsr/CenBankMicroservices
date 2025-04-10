@@ -3,6 +3,7 @@ package com.cenbank.account.service.impl;
 import com.cenbank.account.constants.AccountsConstants;
 import com.cenbank.account.dto.AccountsDto;
 import com.cenbank.account.dto.CustomerDto;
+import com.cenbank.account.dto.SummaryDto;
 import com.cenbank.account.exception.CustomerAlreadyExistsException;
 import com.cenbank.account.exception.ResourceNotFoundException;
 import com.cenbank.account.mapper.AccountsMapper;
@@ -12,6 +13,7 @@ import com.cenbank.account.model.Customer;
 import com.cenbank.account.repository.AccountRepository;
 import com.cenbank.account.repository.CustomerRepository;
 import com.cenbank.account.service.IAccountService;
+import com.cenbank.account.service.client.ComplianceFeignClient;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl implements IAccountService {
     private AccountRepository accountRepository;
     private CustomerRepository customerRepository;
+    private ComplianceFeignClient complianceFeignClient;
 
     @Override
     public void createAccount(CustomerDto customerDto) {
@@ -38,6 +41,9 @@ public class AccountServiceImpl implements IAccountService {
 
         Customer customer = CustomerMapper.mapToCustomer(customerDto, new Customer());
         Customer savedCustomer = customerRepository.save(customer);
+
+        //link account microservice to compliance microservice
+        createCustomerNewSummary(savedCustomer);
 
         //link customer to account: every account owned by a customer
         accountRepository.save(createNewAccount(savedCustomer));
@@ -119,5 +125,12 @@ public class AccountServiceImpl implements IAccountService {
         newAccount.setBranchAddress(AccountsConstants.ADDRESS);
 
         return newAccount;
+    }
+
+    private void createCustomerNewSummary(Customer customer) {
+        SummaryDto newSummaryDto = new SummaryDto();
+        newSummaryDto.setCustomerId(customer.getCustomerId().toString());
+        newSummaryDto.setKycStatus("CLEAN");
+        complianceFeignClient.createSummary(newSummaryDto);
     }
 }

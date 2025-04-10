@@ -10,7 +10,7 @@ eureka:
 
 info:
   app:
-    name: "account microservice"
+    name: "compliance microservice"
     description: "v.1.2.0"
 
 management:
