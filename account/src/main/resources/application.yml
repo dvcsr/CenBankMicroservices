@@ -11,4 +11,17 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8060/eureka/
+
+info:
+  app:
+    name: "account microservice"
+    description: "v.1.2.0"
 
