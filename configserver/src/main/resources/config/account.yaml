@@ -1,5 +1,5 @@
 build:
-  version: "compliance 1.1.0 LOCAL CONFIG"
+  version: "account 1.1.0 LOCAL CONFIG"
 
 account:
   detail: "Account microservices - current PIC : Jane Doe"
@@ -7,5 +7,5 @@ account:
     name: "Jane Doe - Digital Transformation Lead"
     email: "jane@jmail.com"
   availability:
-    - @ Discord
-    - @ Whatsapp (office hours)
+    - at Discord
+    - at Whatsapp (office hours)

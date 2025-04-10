@@ -7,5 +7,5 @@ account:
     name: "Thanos - QA Lead"
     email: "jane@jmail.com"
   availability:
-    - @ Discord
-    - @ Whatsapp (office hours)
+    - at Discord
+    - at Whatsapp (office hours)
