@@ -163,7 +163,7 @@ public class AccountServiceImpl implements IAccountService {
             return false;
         }
         Optional<Customer> customer = customerRepository.findByPhoneNumber(formDto.getPhoneNumber());
-        valid = accountRepository.existsByCustomerIdAndAccountNumber(customer.get().getCustomerId(), formDto.getAccountNumber());
+        valid = accountRepository.existsByCustomerIdAndAccountNumber(customer.get().getCustomerId(), Long.parseLong(formDto.getAccountNumber()));
         return valid;
     }
 }

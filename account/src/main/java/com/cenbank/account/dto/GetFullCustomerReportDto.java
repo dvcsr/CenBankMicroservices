@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Schema(
-        name = "Full Customer Report",
+        name = "Get Full Customer Report",
         description = "Personal Information + Account Information + KYC report information of a customer"
 )
 @Data

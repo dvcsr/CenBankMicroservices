@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Schema(
-        name = "Submit Form for Full Customer Report",
+        name = "Full Customer Report Input",
         description = "required minimal information to get Full Customer Report"
 )
 @Data
@@ -39,5 +39,5 @@ public class GetFullCustomerReportInputDto {
             description = "one valid account number that owned by the customer"
     )
     @Pattern(regexp = "[0-9]{10}", message = "account number cannot be empty and must be valid")
-    private Long accountNumber;
+    private String accountNumber;
 }

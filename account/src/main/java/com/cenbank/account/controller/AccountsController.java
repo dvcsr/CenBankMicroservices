@@ -149,8 +149,25 @@ public class AccountsController {
         }
     }
 
+    @Operation(
+            summary = "Get: Full Customer Report",
+            description = "Personal Information + Account Information + KYC report information of a customer"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HttpStatus.OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HttpStatus.INTERNAL_SERVER_ERROR",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    })
     @GetMapping("/fullreport")
-    public ResponseEntity<GetFullCustomerReportDto> getFullCustomerReport(@RequestBody @Valid GetFullCustomerReportInputDto getFullCustomerReportInputDto) {
+    public ResponseEntity<GetFullCustomerReportDto> getFullCustomerReport(@Valid @RequestBody GetFullCustomerReportInputDto getFullCustomerReportInputDto) {
         GetFullCustomerReportDto getFullCustomerReportDto = iAccountService.getFullCustomerReport(getFullCustomerReportInputDto);
         return ResponseEntity.status(HttpStatus.OK).body(getFullCustomerReportDto);
     }
