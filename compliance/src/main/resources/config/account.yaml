@@ -1,0 +1,11 @@
+build:
+  version: "account 1.1.0 LOCAL CONFIG"
+
+account:
+  detail: "Account microservices - current PIC : Jane Doe"
+  contactDetails:
+    name: "Jane Doe - Digital Transformation Lead"
+    email: "jane@jmail.com"
+  availability:
+    - @ Discord
+    - @ Whatsapp (office hours)

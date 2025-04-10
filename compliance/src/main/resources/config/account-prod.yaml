@@ -1,0 +1,10 @@
+build:
+  version: "account 1.1.0"
+
+account:
+  detail: "CenBank All rights reserved. WARNING: Limited for internal use only"
+  contactDetails:
+    name: "Cenbank"
+    email: "helpdesk@cenbank.com"
+  availability:
+    - 24 hours availability
