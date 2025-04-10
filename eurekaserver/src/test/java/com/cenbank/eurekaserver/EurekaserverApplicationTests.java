@@ -1,10 +1,10 @@
-package com.cenbank.discoveryagent;
+package com.cenbank.eurekaserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DiscoveryagentApplicationTests {
+class EurekaserverApplicationTests {
 
     @Test
     void contextLoads() {
