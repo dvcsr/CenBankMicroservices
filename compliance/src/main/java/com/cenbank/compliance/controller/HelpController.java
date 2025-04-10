@@ -1,7 +1,7 @@
-package com.cenbank.account.controller;
+package com.cenbank.compliance.controller;
 
-import com.cenbank.account.dto.ErrorResponseDto;
-import com.cenbank.account.dto.HelpContactDto;
+import com.cenbank.compliance.dto.ErrorResponseDto;
+import com.cenbank.compliance.dto.HelpContactDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
