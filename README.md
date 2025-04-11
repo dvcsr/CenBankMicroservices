@@ -79,10 +79,12 @@ In this version each microservices has **Spring Profile** configuration
 
 
 ## About v1.2.0
-- add Spring Cloud Netflix: create eureka server, update microservice for eureka client dependency, implement and demonstrate its service discovery feature.
+- add new feature Spring Cloud Netflix: Eureka service registry and client side Service Discovery
 - add Spring Cloud Open Feign: in this version there will be communication between microservices powered by Spring Cloud Open Feign.
+- work with @FeignClient also enables Spring Cloud LoadBalancer client.
 - Update API testing documentation in Postman collection.
 <br/><br/>more complete readme To Be Updated
+
 
 
 
