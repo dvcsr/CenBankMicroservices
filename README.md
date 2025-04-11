@@ -7,6 +7,7 @@ This is the first version of the microservices. The services are simplified mode
 - The application also built with **Onion architecture**, as layers divided based on domain model, repository, infrastructure.
 - It follows the premise of **externalize infrastructure and write adapter code so that the infrastructure does not become tightly coupled.**
 - For this version, there is no yet communication between the two services, as it will be implemented in the later version.
+- Final containerization of the microservices will be in a later version.
 <br/><br/>
 ## What I've demonstrated through this project in v1.0.0:
 - Built the project with **Gradle** and to be compatible with **GraalVM**
@@ -17,7 +18,7 @@ This is the first version of the microservices. The services are simplified mode
     - working with DTO, constraint annotations, custom entity-DTO mapper,
     - using @EnableJpaAuditing to enable **Spring Data JPA Auditing** and use @EntityListeners in base entity for persistence data logs (when and who change the data). 
 - Repository layer:
-  - working with Spring Data JPA with repository interface, declaring query methods, and using @Repository, @Modifying, @Transactional annotations
+  - working with **Spring Data JPA** with repository interface, declaring query methods, and using @Repository, @Modifying, @Transactional annotations
 - Service layer:
   - working with abstraction of business process/logic with **service interface, implementation and @Service annotation** 
 - Infrastructure layer:
