@@ -31,5 +31,6 @@ This is the first version of the microservices. The services are simplified mode
   - documentation of API testing in **Postman collection.**
  <br/>
 <img width="1090" alt="apidoc" src="https://github.com/user-attachments/assets/95507e99-912a-48fc-8682-33e8190ee960" />
-<img width="784" alt="v100" src="https://github.com/user-attachments/assets/f5c79fa7-a81a-425b-b52a-c3b01a2f29a6" />
+<img width="755" alt="v100" src="https://github.com/user-attachments/assets/51a12adf-3c71-4aed-8c61-d02200c92dc0" />
+
 
