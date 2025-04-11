@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d1f3b833-970f-49b8-9745-23444aea9b54",
+		"_postman_id": "57d6dd4d-fdf6-42fa-80cf-bce309d931b2",
 		"name": "Cenbank Microservices",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "37877392"
@@ -114,6 +114,46 @@
 									"key": "phoneNumber",
 									"value": "00009999"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetHelp",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/help",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"help"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBuild",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/build",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"build"
 							]
 						}
 					},
@@ -293,6 +333,46 @@
 								"report",
 								"summary",
 								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetHelp",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/api/help",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"help"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBuild",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/api/build",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"build"
 							]
 						}
 					},
