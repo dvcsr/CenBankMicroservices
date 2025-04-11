@@ -6,9 +6,9 @@ Major feature added in this version is the implementation of externalized config
 In this version each microservices has **Spring Profile** configuration
   - spring.profiles.active=*value*
   - {in this demo available values: "qa", "prod" and the default value of "default"}
-<br/><br/><br/><br/>The application will connect to config server during startup to find the properties value related to the activated profile above.<br/><br/>
-<br/><br/>Config server has the value available because config server connect to central repo -> check https://github.com/dvcsr/config-CenBankMicroservices<br/><br/>
-<br/><br/>**EXAMPLE**: The concrete example shown in new REST API endpoint in this version. Take an example for account microservices (port 8080):
+<br/><br/><br/><br/>The application will connect to config server during startup to find the properties value related to the activated profile above.<br/>
+<br/><br/>Config server has the value available because config server connect to central repo -> check https://github.com/dvcsr/config-CenBankMicroservices<br/><br/><br/>
+<br/><br/>**EXAMPLE**: The concrete example shown in new REST API endpoint in this version. Take an example for account microservice (port 8080):
 - activate prod profile by set spring.profiles.active=prod in application configuration properties.
 - http://localhost:8080/api/help GET result with correspond with what is inside account-prod.yml
 - http://localhost:8080/api/build GET result with correspond with what is inside account-prod.yml
@@ -24,25 +24,15 @@ In this version each microservices has **Spring Profile** configuration
 <br/><br/>
 ## What I've demonstrated through this project in v1.1.0:
 - Build config server using Spring Cloud Config Server, work with @EnableConfigServer annotation.
-- Add Spring Profile configuration to microservices, setup necessary configuration to link microservices with the config server with spring.config.import=
-- setup config server configuration to link with remote central repo (in this demo using Github)
-- create DTO for the feature demonstration
-- Created a **Spring Boot web application REST API** leveraging on **springdoc openapi for documentation** and **docker compose for PostgreSQL database** setup.
-- Leveraging on **Spring Data JPA Auditing** to transparently keep track of who created or changed an entity and when the change happened.
-- Domain layer:
-    - working with @Entity, @MappedSuperclass for base entity, Lombok annotations, Hibernate annotations,
-    - working with DTO, constraint annotations, custom entity-DTO mapper,
-    - using @EnableJpaAuditing to enable **Spring Data JPA Auditing** and use @EntityListeners in base entity for persistence data logs (when and who change the data). 
-- Repository layer:
-  - working with **Spring Data JPA** with repository interface and @Repository annotation and declaring query methods
-- Service layer:
-  - working with abstraction of business process/logic with **service interface, implementation and @Service annotation** 
-- Infrastructure layer:
-  - **handling exceptions** for robust REST controller: GlobalExceptionHandler, custom-specific-exceptions, its related annotations: @ControllerAdvice, @ExceptionHandler
-  - working with REST-related annotations:
-    - @RestController, @RequestBody, @RequestMapping and its shortcut annotation http mapping,
-    - @Validated, @Valid, @RequestParam, **@Pattern with regex**
-    - working with API prefix configuration and **ResponseEntity**
-  - working with docker compose to create **PostgreSQL container** for the application.
- <br/>
-<img width="1090" alt="apidoc" src="https://github.com/user-attachments/assets/95507e99-912a-48fc-8682-33e8190ee960" />
+- Setup config server configuration to link with remote central repo (in this demo using Github)
+- To microservices: add Spring Profile configuration, add config client dependency, setup necessary configuration to link microservices with the config server with spring.config.import=
+- Work with @ConfigurationProperties to bind values from external config files to a class (in this demo a DTO), use @EnableConfigurationProperties to specify the class and enable the feature.
+- Created mock config files in central repo with **key-value matches the DTO** and **name the file to follow naming convention protocol that enable this feature to work properly.**
+- Create new controller for this demo:
+  - shows the feature by using the previously mentioned new DTO in REST API endpoint inside controller
+  - demonstrated **other approach of reading config files value to the application using @Value annotation in field and use it in REST API endpoint inside controller.**
+- Demonstrated a **feature inside config server to encrypt and decrypt** by using encrypt.key=*value* in config server properties. check:
+  - https://github.com/dvcsr/config-CenBankMicroservices/blob/main/compliance-qa.yaml
+  - https://github.com/dvcsr/config-CenBankMicroservices/blob/main/account-qa.yml
+  - value saved is encrypted, but if we set above files "qa" to be active with spring profile.active=qa, in microservice endpoint it is decrypted and shows a humanly comprehensible data.
+- Update API testing documentation in **Postman collection**
