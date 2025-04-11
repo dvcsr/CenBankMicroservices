@@ -28,5 +28,8 @@ This is the first version of the microservices. The services are simplified mode
     - @Validated, @Valid, @RequestParam, **@Pattern with regex**
     - working with API prefix configuration and **ResponseEntity**
   - working with docker compose to create **PostgreSQL container** for the application.
+  - documentation of API testing in **Postman collection.**
  <br/>
 <img width="1090" alt="apidoc" src="https://github.com/user-attachments/assets/95507e99-912a-48fc-8682-33e8190ee960" />
+<img width="784" alt="v100" src="https://github.com/user-attachments/assets/f5c79fa7-a81a-425b-b52a-c3b01a2f29a6" />
+
