@@ -23,7 +23,10 @@ In this version each microservices has **Spring Profile** configuration
 - in later version, there will be a feature where the microservices will be able to update its value inside the application at runtime whenever there are new changes in central config files, without having to restart or stop the service.
 <br/><br/>
 ## What I've demonstrated through this project in v1.1.0:
-- Built the project with **Gradle** and to be compatible with **GraalVM**
+- Build config server using Spring Cloud Config Server, work with @EnableConfigServer annotation.
+- Add Spring Profile configuration to microservices, setup necessary configuration to link microservices with the config server with spring.config.import=
+- setup config server configuration to link with remote central repo (in this demo using Github)
+- create DTO for the feature demonstration
 - Created a **Spring Boot web application REST API** leveraging on **springdoc openapi for documentation** and **docker compose for PostgreSQL database** setup.
 - Leveraging on **Spring Data JPA Auditing** to transparently keep track of who created or changed an entity and when the change happened.
 - Domain layer:
