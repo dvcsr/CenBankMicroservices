@@ -49,8 +49,8 @@ In this version each microservices has **Spring Profile** configuration
 <br/><br/>Config server has the value available because config server connect to central repo -> check https://github.com/dvcsr/config-CenBankMicroservices<br/><br/><br/>
 <br/><br/>**EXAMPLE**: The concrete example shown in new REST API endpoint in this version. Take an example for account microservice (port 8080):
 - activate prod profile by set spring.profiles.active=prod in application configuration properties.
-- http://localhost:8080/api/help GET result with correspond with what is inside account-prod.yml
-- http://localhost:8080/api/build GET result with correspond with what is inside account-prod.yml
+- http://localhost:8080/api/help GET result will correspond with what is inside account-prod.yml
+- http://localhost:8080/api/build GET result will correspond with what is inside account-prod.yml
 <br/><br/>It shows that
 - spring.profiles.active=qa -> result correspond with account-qa.yml
 - spring.profiles.active=prod -> result correspond with account-prod.yml
