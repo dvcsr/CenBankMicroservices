@@ -1,6 +1,6 @@
 services:
   compliance:
-    image: compliance:1.2.0
+    image: compliance:0.0.1-SNAPSHOT
     container_name: compliance_container
     ports:
       - "8090:8090"
@@ -13,7 +13,7 @@ services:
       file: config.yml
       service: base-config
   compliance2:
-    image: compliance:1.2.0
+    image: compliance:0.0.1-SNAPSHOT
     container_name: compliance2_container
     ports:
       - "8091:8090"
