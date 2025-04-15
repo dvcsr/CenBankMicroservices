@@ -11,10 +11,11 @@ services:
     volumes:
       - compliancedb_data:/var/lib/postgresql/data
     networks:
-      - bankdb_network
+      - cenbankbiz
 
 volumes:
   compliancedb_data:
 
 networks:
-  bankdb_network:
+  cenbankbiz:
+    external: true

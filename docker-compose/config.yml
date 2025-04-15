@@ -1,15 +1,8 @@
 services:
   base-config:
     networks:
-      - cenbank
+      - cenbankbiz
     deploy:
       resources:
         limits:
           memory: 500m
-
-  microservice-configserver-config:
-    extends:
-      service: base-config
-    environment:
-      SPRING_PROFILES_ACTIVE: default
-      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/

@@ -15,5 +15,5 @@ services:
       service: base-config
 
 networks:
-  cenbank:
-    driver: "bridge"
+  cenbankbiz:
+    external: true
