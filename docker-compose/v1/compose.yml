@@ -1,0 +1,18 @@
+services:
+  compliance:
+    image: compliance:0.0.1-SNAPSHOT
+    container_name: compliance_container
+    ports:
+      - "8090:8090"
+    environment:
+      - SPRING_APPLICATION_NAME=compliance
+      - SPRING_PROFILE_ACTIVE=qa
+      - SPRING_CONFIG_IMPORT=configserver:http://configserver:8071/
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/compliancedbpostgres
+    extends:
+      file: config.yml
+      service: base-config
+
+networks:
+  cenbankbiz:
+    external: true
