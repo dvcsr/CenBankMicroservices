@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface KYCSummaryRepository extends JpaRepository<KYCSummary, Long> {
     Optional<KYCSummary> findByCustomerId(Long customerId);
+    boolean existsByCustomerId(Long customerId);
 }

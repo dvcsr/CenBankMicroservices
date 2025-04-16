@@ -7,11 +7,13 @@ import com.cenbank.compliance.exception.ResourceNotFoundException;
 import com.cenbank.compliance.mapper.ComplianceMapper;
 import com.cenbank.compliance.model.DueDiligenceReport;
 import com.cenbank.compliance.repository.DueDiligenceReportRepository;
+import com.cenbank.compliance.repository.KYCSummaryRepository;
 import com.cenbank.compliance.service.IDueDiligenceReportService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class DueDiligenceReportServiceImpl implements IDueDiligenceReportService {
     private DueDiligenceReportRepository dueDiligenceReportRepository;
+    private KYCSummaryRepository kycSummaryRepository;
 
     @Override
     public void createReport(AddReportDto addReportDto) {
@@ -41,9 +44,13 @@ public class DueDiligenceReportServiceImpl implements IDueDiligenceReportService
 
     @Override
     public List<GetReportDto> getAllReports(String customerId) {
+        boolean isExist = kycSummaryRepository.existsByCustomerId(Long.parseLong(customerId));
+        if (!isExist) {
+            throw new ResourceNotFoundException("Report List", "customer id: ", customerId);
+        }
         List<DueDiligenceReport> reportList = dueDiligenceReportRepository.getAllByCustomerId(Long.parseLong(customerId));
         if (reportList.isEmpty()) {
-            throw new ResourceNotFoundException("Report List", "customer id: ", customerId);
+            return new ArrayList<>();
         }
         List<GetReportDto> reportDtoList = reportList.stream().map(
                 report -> GetReportDto.builder()
