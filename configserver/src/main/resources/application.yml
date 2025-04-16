@@ -1,4 +1,8 @@
 spring:
+  application:
+    name: configserver
+  profiles:
+    active: git
   cloud:
     config:
       server:
@@ -8,3 +12,12 @@ spring:
           timeout: 7
           clone-on-start: true
           force-pull: true
+    refresh:
+      enabled: false
+
+server:
+  port: 8071
+
+encrypt:
+  key: dKfQBpwkUaEQXOCiUlMY2pM7100XucNk
+

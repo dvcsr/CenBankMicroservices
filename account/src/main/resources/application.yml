@@ -20,7 +20,7 @@ eureka:
 
 info:
   app:
-    name: "account microservice"
+    name: "account"
     description: "v.1.2.0"
 
 management:
@@ -36,4 +36,4 @@ management:
       access: unrestricted
 
 server:
-  port: 80808
+  port: 8080

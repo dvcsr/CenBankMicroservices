@@ -114,7 +114,7 @@ public class AccountServiceImpl implements IAccountService {
     public GetFullCustomerReportDto getFullCustomerReport(GetFullCustomerReportInputDto formDto) {
         boolean isValid = verifyFullCustomerInput(formDto);
         if (!isValid) {
-            throw new ResourceNotFoundException("Full Customer Report", "Form", "invalid form data!");
+            throw new ResourceNotFoundException("Full Customer Report", "Form: ", "invalid form data!");
         }
         Optional<Customer> customer = customerRepository.findByPhoneNumber(formDto.getPhoneNumber());
 

@@ -1,5 +1,5 @@
 services:
-  postgres:
+  accpostgres:
     image: postgres:alpine
     container_name: bankdb
     environment:
@@ -7,18 +7,15 @@ services:
       POSTGRES_USER: bankdbuser
       POSTGRES_PASSWORD: bankdbpw
     ports:
-      - "5432:5432"
-    deploy:
-      resources:
-        limits:
-          memory: 150M
+      - "5434:5432"
     volumes:
       - bankdb_data:/var/lib/postgresql/data
     networks:
-      - bankdb_network
+      - cenbankbiz
 
 volumes:
   bankdb_data:
 
 networks:
-  bankdb_network:
+  cenbankbiz:
+    external: true

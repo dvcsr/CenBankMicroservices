@@ -1,0 +1,21 @@
+services:
+  account:
+    image: account:1.2.0
+    container_name: accountservice_container
+    ports:
+      - "8080:8080"
+    networks:
+      - cenbankbiz
+    deploy:
+      resources:
+        limits:
+          memory: 500m
+    environment:
+      - SPRING_PROFILES_ACTIVE=qa
+      - SPRING_CONFIG_IMPORT=configserver:http://configserver:8071/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaserver:8060/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://accpostgres:5432/bankdbpostgres
+
+networks:
+  cenbankbiz:
+    external: true
