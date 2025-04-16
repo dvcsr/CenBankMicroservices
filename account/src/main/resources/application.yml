@@ -1,25 +1,22 @@
-server:
-  port: 8080
-
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/bankdbpostgres
-    driver-class-name: org.postgresql.Driver
-    username: bankdbuser
-    password: bankdbpw
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
+  application:
+    name: account
+  config:
+    import: optional:configserver:http://localhost:8071/
+  profiles:
+    active: qa
+  cloud:
+    refresh:
+      enabled: false
 
 eureka:
   instance:
-    preferIpAddress: true
+    prefer-ip-address: true
   client:
     fetchRegistry: true
     registerWithEureka: true
     serviceUrl:
       defaultZone: http://localhost:8060/eureka/
-
 
 info:
   app:
@@ -37,3 +34,6 @@ management:
   endpoint:
     shutdown:
       access: unrestricted
+
+server:
+  port: 80808

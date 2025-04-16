@@ -11,7 +11,7 @@ ext {
 }
 
 group = 'com.cenbank'
-version = '0.0.1-SNAPSHOT'
+version = '1.2.0'
 
 java {
     toolchain {
@@ -54,4 +54,8 @@ dependencyManagement {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.withType(org.springframework.boot.gradle.tasks.aot.ProcessAot).configureEach {
+    args('--spring.profiles.active=qa,prod')
 }
