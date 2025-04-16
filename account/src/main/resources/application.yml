@@ -8,6 +8,16 @@ spring:
   cloud:
     refresh:
       enabled: false
+    loadbalancer:
+      cache:
+        enabled: true
+      eager-load:
+        clients:
+          - compliance
+          - account
+    openfeign:
+      client:
+        refresh-enabled: false
 
 eureka:
   instance:
