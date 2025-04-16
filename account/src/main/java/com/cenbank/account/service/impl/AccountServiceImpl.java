@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -52,9 +53,12 @@ public class AccountServiceImpl implements IAccountService {
         Customer customer = customerRepository.findByPhoneNumber(phoneNumber).orElseThrow(
                 () -> new ResourceNotFoundException("Personal information", "phone number:", phoneNumber)
         );
+        CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
         List<Accounts> accountList = accountRepository.findByCustomerId(customer.getCustomerId());
         if (accountList.isEmpty()) {
-            throw new ResourceNotFoundException("Account", "customer id: ", customer.getCustomerId().toString());
+            List<AccountsDto> emptyList = new ArrayList<>();
+            customerDto.setAccountsDtoList(emptyList);
+            return customerDto;
         }
 
         List<AccountsDto> accountsDtoList = accountList.stream().map(
@@ -63,8 +67,6 @@ public class AccountServiceImpl implements IAccountService {
                                                 .branchAddress(account.getBranchAddress())
                                                 .build())
                 .collect(Collectors.toList());
-
-        CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
         customerDto.setAccountsDtoList(accountsDtoList);
 
         return customerDto;
