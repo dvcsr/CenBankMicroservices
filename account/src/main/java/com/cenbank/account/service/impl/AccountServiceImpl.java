@@ -31,7 +31,7 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public void createAccount(CustomerDto customerDto) {
-        //first block of code, fail fast approach
+        //first block of code,  fail fast approach
         Optional<Customer> existingAcc = customerRepository.findByPhoneNumber(customerDto.getPhoneNumber());
         if (existingAcc.isPresent()) {
             throw new CustomerAlreadyExistsException("Duplicate: Customer already exist with phone number: " + customerDto.getPhoneNumber());
