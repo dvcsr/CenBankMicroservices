@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient("compliance")
+@FeignClient(name = "COMPLIANCE")
 public interface ComplianceFeignClient {
 
     //no consume no produce yet

@@ -13,8 +13,7 @@ spring:
         enabled: true
       eager-load:
         clients:
-          - compliance
-          - account
+          - COMPLIANCE
     openfeign:
       client:
         refresh-enabled: false
