@@ -1,4 +1,18 @@
 services:
+  comppostgres:
+    image: postgres:alpine
+    container_name: compliancedb
+    environment:
+      POSTGRES_DB: compliancedbpostgres
+      POSTGRES_USER: compliancedbuser
+      POSTGRES_PASSWORD: compliancedbpw
+    ports:
+      - "5433:5432"
+    volumes:
+      - compliancedb_data:/var/lib/postgresql/data
+    networks:
+      - cenbankbiz
+
   accpostgres:
     image: postgres:alpine
     container_name: bankdb
@@ -14,8 +28,8 @@ services:
       - cenbankbiz
 
 volumes:
+  compliancedb_data:
   bankdb_data:
-
 networks:
   cenbankbiz:
     external: true

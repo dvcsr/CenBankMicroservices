@@ -1,0 +1,45 @@
+services:
+  compliance:
+    image: compliance:1.2.0
+    container_name: compliance_container
+    ports:
+      - "8090:8090"
+    environment:
+      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://comppostgres:5432/compliancedbpostgres
+    extends:
+      file: config.yml
+      service: base-config
+
+  compliance2:
+    image: compliance:1.2.0
+    container_name: compliance2_container
+    ports:
+      - "8091:8090"
+    environment:
+      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://comppostgres:5432/compliancedbpostgres
+    extends:
+      file: config.yml
+      service: base-config
+
+  account:
+    image: account:1.2.0
+    container_name: accountservice_container
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          memory: 500m
+    environment:
+      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://accpostgres:5432/bankdbpostgres
+      - SPRING_CLOUD_LOADBALANCER_EAGER-LOAD_CLIENTS=COMPLIANCE
+    extends:
+      file: config.yml
+      service: base-config
+
+networks:
+  cenbankbiz:
+    external: true
