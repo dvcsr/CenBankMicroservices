@@ -1,6 +1,6 @@
 services:
   compliance:
-    image: compliance:1.2.0
+    image: davecaesar/compliance:1.2.0
     container_name: compliance_container
     ports:
       - "8090:8090"
@@ -11,7 +11,7 @@ services:
       service: base-config
 
   compliance2:
-    image: compliance:1.2.0
+    image: davecaesar/compliance:1.2.0
     container_name: compliance2_container
     ports:
       - "8091:8090"
@@ -22,7 +22,7 @@ services:
       service: base-config
 
   account:
-    image: account:1.2.0
+    image: davecaesar/account:1.2.0
     container_name: accountservice_container
     ports:
       - "8080:8080"

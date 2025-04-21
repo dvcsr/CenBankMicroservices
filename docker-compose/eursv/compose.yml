@@ -1,6 +1,6 @@
 services:
   eurekaserver:
-    image: eurekaserver:1.2.0
+    image: davecaesar/eurekaserver:1.2.0
     container_name: eurekaserver_container
     networks:
       - cenbankbiz
