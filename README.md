@@ -34,7 +34,12 @@ In this section I put interesting things I encountered while I work with the pro
 2. Spring Cloud Config Server AOT and Native Image Support was very tricky, it needs to add several options that initially I have no idea how to add it to the project that I build. 
 <img width="423" alt="Screenshot 2025-04-21 at 18 38 13" src="https://github.com/user-attachments/assets/beca66ae-7da5-4e88-bcc2-6b22549acd6d" />
 <br/>after hours of searching, I found that in my case I was using CLI command './gradlew bootBuildImage' to create the docker image, the options were working if passed through this syntax inside configserver's build.gradle file:<br/><br/>
-<img width="450" alt="Screenshot 2025-04-21 at 18 44 09" src="https://github.com/user-attachments/assets/e5bb857a-9ea3-4f2a-9690-f809a7eb3df6" /><br/>
+<img width="450" alt="Screenshot 2025-04-21 at 18 44 09" src="https://github.com/user-attachments/assets/e5bb857a-9ea3-4f2a-9690-f809a7eb3df6" /><br/><br/>
+
+3. If you try to see if service discovery and load balancing is working by stopping one of compliance containers, or restarting the containers, it may take a while before it back to work (>30s) and in the meantime you might get either one of this message exceptions which I haven't implement the fallback mechanism: "timeout", "No route to host executing", "feign client instance not found".
+This is discussed in official docs and I didn't change the default.
+<img width="500" alt="Screenshot 2025-04-21 at 22 30 35" src="https://github.com/user-attachments/assets/e3e253b6-9457-446c-bc55-4e308aa39ed6" />
+
 
 
 
