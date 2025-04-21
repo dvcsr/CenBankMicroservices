@@ -8,5 +8,6 @@ services:
           memory: 500m
     environment:
       - SPRING_PROFILES_ACTIVE=qa
+      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
       - SPRING_CONFIG_IMPORT=configserver:http://configserver:8071/
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaserver:8060/eureka/

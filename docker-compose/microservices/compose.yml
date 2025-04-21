@@ -5,7 +5,6 @@ services:
     ports:
       - "8090:8090"
     environment:
-      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
       - SPRING_DATASOURCE_URL=jdbc:postgresql://comppostgres:5432/compliancedbpostgres
     extends:
       file: config.yml
@@ -17,7 +16,6 @@ services:
     ports:
       - "8091:8090"
     environment:
-      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
       - SPRING_DATASOURCE_URL=jdbc:postgresql://comppostgres:5432/compliancedbpostgres
     extends:
       file: config.yml
@@ -33,7 +31,6 @@ services:
         limits:
           memory: 500m
     environment:
-      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
       - SPRING_DATASOURCE_URL=jdbc:postgresql://accpostgres:5432/bankdbpostgres
       - SPRING_CLOUD_LOADBALANCER_EAGER-LOAD_CLIENTS=COMPLIANCE
     extends:
