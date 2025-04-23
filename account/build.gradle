@@ -3,7 +3,6 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
     id 'org.springframework.boot' version '3.4.4'
     id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
-    id 'org.graalvm.buildtools.native' version '0.10.6'
 }
 
 ext {
@@ -44,8 +43,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
-    implementation 'org.slf4j:slf4j-api:1.7.25'
-    implementation 'ch.qos.logback:logback-classic:1.5.18'
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation 'ch.qos.logback:logback-classic:1.4.11'
+    implementation 'ch.qos.logback:logback-core:1.4.11'
 }
 
 dependencyManagement {
