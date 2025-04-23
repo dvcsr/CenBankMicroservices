@@ -1,13 +1,13 @@
 package com.cenbank.account.dto;
 
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class CustomerDtoValidationTest {
@@ -42,6 +42,11 @@ private static Validator validator;
 
         var violations = validator.validate(customer);
         assertFalse(violations.isEmpty());
+        assertEquals(1, violations.size(), "Should have exactly one violation!");
+
+        ConstraintViolation<CustomerDto> violation = violations.iterator().next();
+        System.out.println("Validation failed: " + violation.getMessage());
+        assertEquals("Phone number doesn't match the country code", violation.getMessage());
     }
 
     @Test
@@ -55,5 +60,8 @@ private static Validator validator;
 
         var violations = validator.validate(customer);
         assertFalse(violations.isEmpty());
+
+        ConstraintViolation<CustomerDto> violation = violations.iterator().next();
+        System.out.println("Validation failed: " + violation.getMessage());
     }
 }
