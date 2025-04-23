@@ -30,7 +30,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         List<ObjectError> allErrors = ex.getBindingResult().getAllErrors();
         allErrors.forEach(error -> {
             String errorMessage = error.getDefaultMessage();
-            String fieldName = ((FieldError) error).getField();
+            String fieldName;
+            if (error instanceof FieldError) {
+            fieldName = ((FieldError) error).getField();}
+            else { fieldName = error.getObjectName();
+            }
             validationErrors.put(fieldName, errorMessage);
         });
 
