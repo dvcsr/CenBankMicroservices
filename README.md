@@ -1,6 +1,9 @@
-## About v1.2.1 (Changes in Account Microservices)
+## About v1.2.1
+What I've demonstrated in v1.2.1 :
 - Implement custom validation
-- Implement some testing strategy that covers:
-  - Unit tests for individual components
-  - Integration tests for API endpoints
-  - Validation testing for business rules
+- Implement testing with Junit for customerDto Validation:
+  - lifecycle Methods Implementation: @BeforeEach, @AfterEach, @BeforeAll, @AfterAll
+- Implement JUnit extensions:
+  - extensions: DurationExtension class, LoggingExtension class,  for test lifecycle duration measurement and logging, use with @ExtendWith
+- Assertion:
+  - assertTrue(), assertFalse(), assertEquals(), assertAll(), assertTimeout(), assertThrows(), assertNotNull(), assertNull()

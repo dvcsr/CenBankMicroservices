@@ -1,14 +1,14 @@
 package com.cenbank.account.dto;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import com.cenbank.account.config.extensions.DurationExtension;
+import com.cenbank.account.config.extensions.LoggingExtension;
+import jakarta.validation.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,22 +16,39 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@ExtendWith({DurationExtension.class, LoggingExtension.class})
 public class CustomerDtoValidationTest {
     private static final Logger logger = LoggerFactory.getLogger(CustomerDtoValidationTest.class);
     private static Validator validator;
+    private CustomerDto customer;
+
 
     @BeforeAll
     public static void setUpValidator() {
-        logger.debug("initializing validator for customerDto tests");
+        logger.debug("initializing customerDto tests . . . .");
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
+    }
+
+    @BeforeEach
+    void startTest() {
+        customer = createValidCustomer();
+    }
+
+    @AfterEach
+    void endTest() {
+        customer = null;
+    }
+
+    @AfterAll
+    static void finalCleanup() {
+        logger.info("Finalizing customerDto tests . . . .");
+        // final cleanup
     }
 
     @Test
     public void testCustomerDtoValidation_NoViolations() {
         logger.info("Testing valid customer scenario");
-        CustomerDto customer = new CustomerDto();
         customer.setCountryId("ID");
         customer.setPhoneNumber("628123456789");
         customer.setName("John Doe");
@@ -46,7 +63,6 @@ public class CustomerDtoValidationTest {
     @Test
     public void whenInvalidPhoneForCountry_thenViolation() {
         logger.info("Testing invalid phone to country scenario");
-        CustomerDto customer = new CustomerDto();
         customer.setCountryId("US");
         customer.setPhoneNumber("628123456789"); // Indonesian number with US country
         customer.setName("John Doe");
@@ -64,7 +80,6 @@ public class CustomerDtoValidationTest {
     @Test
     public void whenInvalidCountryID_thenViolation() {
         logger.info("Testing invalid country Id scenario");
-        CustomerDto customer = new CustomerDto();
         customer.setCountryId("NZ");
         customer.setPhoneNumber("628123456789"); // Indonesian number with US country
         customer.setName("John Doe");
@@ -79,10 +94,45 @@ public class CustomerDtoValidationTest {
     }
 
     @Test
+    void testCustomerDtoAssertAll() {
+        customer.setName("John");
+        customer.setAge(25);
+
+        // Multiple assertions one test
+        assertAll("Customer properties",
+                () -> assertEquals("John", customer.getName()),
+                () -> assertTrue(customer.getAge() > 18),
+                () -> assertNotNull(customer.getName()),
+                () -> assertNull(customer.getAccountsDtoList())
+        );
+        logger.info("multiple assertions of customer dto passed");
+    }
+
+    @Test
+    void CustomerDtoTimeout() {
+        assertTimeout(Duration.ofMillis(10), () -> {
+            validator.validate(customer);
+            logger.info("timeout assertion of customer dto passed");
+        });
+    }
+
+    @Test
+    void testCustomerDtoException() {
+        CustomerDto customerException = new CustomerDto();
+        Set<ConstraintViolation<CustomerDto>> violations = validator.validate(customerException);
+        if (!violations.isEmpty()) {
+            ConstraintViolationException exception = new ConstraintViolationException(violations);
+            assertNotNull(exception);
+            assertTrue(exception.getConstraintViolations().size() > 0);
+        }
+        logger.info("assert exception test passed");
+    }
+
+
+    @Test
     public void whenMultipleValidationErrors_thenCollectAllErrors() {
         logger.info("Testing multiple validation errors scenario");
 
-        CustomerDto customer = new CustomerDto();
         // Setting invalid values for multiple fields
         customer.setCountryId("NZ"); // Wrong country Id
         customer.setPhoneNumber("000023456789"); // Wrong country code to phone number
@@ -165,6 +215,17 @@ public class CustomerDtoValidationTest {
         return messages.stream()
                 .map(msg -> "- " + msg)
                 .collect(Collectors.joining("\n"));
+    }
+
+    private CustomerDto createValidCustomer() {
+        CustomerDto validCustomer = new CustomerDto();
+        validCustomer.setName("John Doe");
+        validCustomer.setEmail("john.doe@example.com");
+        validCustomer.setPhoneNumber("628123456789");
+        validCustomer.setCountryId("ID");
+        validCustomer.setAge(25);
+
+        return validCustomer;
     }
 
 }
