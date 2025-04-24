@@ -10,6 +10,12 @@ What I've demonstrated in v1.2.1 :
         - extensions: DurationExtension class, LoggingExtension class,  for test lifecycle duration measurement and logging, use with @ExtendWith
     - Assertion:
         - assertTrue(), assertFalse(), assertEquals(), assertAll(), assertTimeout(), assertThrows(), assertNotNull(), assertNull()<br/><br/>
+- Implement testing with Mockito for account controller:
+    - @MockitoBean
+    - mock behavior with when() and doThrow()
+    - Verifications:
+        - verify()
+        - argument matching with any()<br/><br/>
 
  ## About v1.2.0
 - added new feature with **Spring Cloud Netflix** for internal traffic:
